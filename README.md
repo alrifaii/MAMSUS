@@ -1,3 +1,15 @@
+## Installation
+
+### Listiner 
+```
+git clone https://github.com/alrifaii/MAMSUS --depth=1 --branch=main --single-branch MAMSUS_Listiner
+
+```
+
+Lisitner (slave)
+
+    
+    
     What is the difference between MAMSUS_Controll and MAMSUS_Listiner?
 
     How do I set up MAMSUS_Controll on the main computer?
@@ -17,3 +29,19 @@
     What level of control does MAMSUS_Controll provide over the remote computers running MAMSUS_Listiner?
 
     Are there any specific use cases or scenarios where MAMSUS_Controll and MAMSUS_Listiner excel?
+
+
+> **Note:** The **Publish now** button is disabled if your file has not been published yet.
+
+## Funktion
+
+```mermaid
+graph LR
+A[Controller] -- MQTT Encrypted Command--> B{Broker}
+B --> D[Listiner]
+D --Decrypt--> F{Is it mine?}
+F --No--> I((Ignore))
+F --yes--> H((Execute Command))
+H--result-->A[Controller]
+
+> **Note:** Getting Screenshot sends multiple Results.
