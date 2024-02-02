@@ -24,6 +24,21 @@
                      ╙╜▒▒▒▒╜╜
 "@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+$ScriptPath = $MyInvocation.MyCommand.Path
+$ShortcutFilePath = [System.IO.Path]::Combine($env:APPDATA, 'Microsoft\Windows\Start Menu\Programs\Startup', 'MAMSUS.lnk')
+
+if (-not (Test-Path $ShortcutFilePath)) {
+    $WshShell = New-Object -ComObject WScript.Shell
+    $Shortcut = $WshShell.CreateShortcut($ShortcutFilePath)
+    $Shortcut.TargetPath = $ScriptPath
+    $Shortcut.WorkingDirectory = (Get-Item $ScriptPath).Directory.FullName
+    $Shortcut.IconLocation = $ScriptPath
+    $Shortcut.Save()
+    Write-Host "Shortcut created successfully" -ForegroundColor Green
+} else {
+    Write-Host "Shortcut already exists." -ForegroundColor Green
+}
+
 
 ##arp
 $libraries = @("paho-mqtt", "pyscreenshot", "Pillow", "pycaw", "pyautogui")
