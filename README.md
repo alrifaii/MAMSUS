@@ -1,4 +1,4 @@
-# MAMSUS (Multi-Agent Multi-System Universal System)
+# MAMSUS
 
 MAMSUS is an open-source program designed to control multiple PCs which have the 'MAMSUS Listener' program running in the background. The program utilizes PowerShell and Python commands transported via MQTT (Message Queuing Telemetry Transport).
 
