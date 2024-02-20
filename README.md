@@ -1,39 +1,54 @@
-## Installation
+# MAMSUS (Multi-Agent Multi-System Universal System)
 
-### Listiner 
+MAMSUS is an open-source program designed to control multiple PCs which have the 'MAMSUS Listener' program running in the background. The program utilizes PowerShell and Python commands transported via MQTT (Message Queuing Telemetry Transport).
+
+## Features
+
+- **User-Friendly Interface:** MAMSUS is unique for its intuitive GUI making it easy for users to interact with.
+- **Cross-Device Control:** It can control multiple devices simultaneously, providing a seamless experience for managing multiple PCs.
+- **MQTT Integration:** The program utilizes the "broker.mqttdashboard.com" MQTT broker, enabling control of any PC in the World with the correct password and topic.
+- **Versatile Functions:**
+  - Capture Screenshots
+  - Get Basic System Information
+  - Change Background
+  - Send Key Inputs: Send keyboard inputs remotely to target devices.
+  - Execute PowerShell Commands: Send PowerShell commands and receive responses from target devices.
+
+## Compatibility
+
+MAMSUS is specifically designed to work on Windows devices.
+
+## Getting Started
+
+To start using MAMSUS, follow these steps:
+
+1. Install the "MAMSUS Listener" program on the target Windows devices.
 ```
 git clone https://github.com/alrifaii/MAMSUS --depth=1 --branch=main --single-branch MAMSUS_Listiner
 
 ```
+2. Change the Value of secret.key : This will be your Password
+3. Change the value of topic.key: This will be the topic through which encrypted communication will occur. It's recommended to make this name unique.
+   
 
-Lisitner (slave)
+## Dependencies
 
-    
-    
-    What is the difference between MAMSUS_Controll and MAMSUS_Listiner?
+- Python
+- MQTT broker (e.g., broker.mqttdashboard.com)
 
-    How do I set up MAMSUS_Controll on the main computer?
+## Usage
 
-    What steps are involved in deploying MAMSUS_Listiner on remote computers?
+Refer to the documentation for detailed instructions on how to use MAMSUS and its various features.
 
-    Can MAMSUS_Listiner be implemented on multiple PCs simultaneously?
+## Contributing
 
-    Are there any network or firewall considerations for using MAMSUS_Controll and MAMSUS_Listiner across different computers?
+Contributions are welcome! Feel free to submit bug reports, feature requests, or pull requests via GitHub.
 
-    How is the communication between MAMSUS_Controll and MAMSUS_Listiner secured?
-
-    Is there a user authentication process to ensure secure connections between the controlling and controlled computers?
-
-    Can MAMSUS_Controll and MAMSUS_Listiner be used across different operating systems?
-
-    What level of control does MAMSUS_Controll provide over the remote computers running MAMSUS_Listiner?
-
-    Are there any specific use cases or scenarios where MAMSUS_Controll and MAMSUS_Listiner excel?
 
 
 > **Note:** The **Publish now** button is disabled if your file has not been published yet.
 
-## Funktion
+## Funktionmap
 
 ```mermaid
 graph LR
